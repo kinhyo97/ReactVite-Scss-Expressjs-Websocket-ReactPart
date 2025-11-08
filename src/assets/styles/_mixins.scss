@@ -1,0 +1,64 @@
+// 📏 가운데 정렬 (Flex)
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// 📱 반응형 미디어쿼리
+@mixin respond($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: 480px) { @content; }
+  } @else if $breakpoint == tablet {
+    @media (max-width: 768px) { @content; }
+  } @else if $breakpoint == desktop {
+    @media (max-width: 1200px) { @content; }
+  }
+}
+
+// ✍️ 텍스트 스타일
+@mixin text-base($size: 16px, $weight: 400, $color: #222, $line: 1.6) {
+  font-size: $size;
+  font-weight: $weight;
+  color: $color;
+  line-height: $line;
+  letter-spacing: -0.3px;
+}
+
+// 🎨 버튼 스타일
+@mixin button-base($bg: $primary-color, $color: #fff) {
+  background-color: $bg;
+  color: $color;
+  border: none;
+  border-radius: $border-radius;
+  padding: 10px 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: darken($bg, 8%);
+  }
+
+  &:disabled {
+    background-color: lighten($bg, 15%);
+    cursor: not-allowed;
+  }
+}
+
+// 🪶 카드 스타일
+@mixin card {
+  background: #fff;
+  border-radius: $border-radius;
+  box-shadow: $shadow-base;
+  padding: 20px;
+}
+
+@mixin flex-center($direction: row, $gap: 0, $wrap: nowrap) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: $direction;
+  flex-wrap: $wrap; // 자동 줄바꿈 ( wrap, nowrap, wrap-reverse ) 
+  gap: $gap;
+}

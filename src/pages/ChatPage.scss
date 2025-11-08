@@ -1,0 +1,23 @@
+// pages/ChatPage.scss
+.chat-container {
+  width: 100%;
+  max-width: 800px;
+}
+
+.chat-box {
+  height: 500px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+}
+
+.chat-page {
+  text-align: center;
+  margin-top: 120px;
+
+  &__title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 40px;
+  }
+}

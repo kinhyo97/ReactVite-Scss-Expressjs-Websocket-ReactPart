@@ -1,0 +1,20 @@
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; // 화면 전체 높이
+  background-color: #f9f9f9;
+}
+
+.layout-main {
+  flex: 1; // Navbar, Footer 제외하고 나머지 공간 차지
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; // 위에서부터 시작 (필요시 center로 변경)
+  padding: 40px 20px;
+  box-sizing: border-box;
+  max-width: 1200px; // 콘텐츠 최대 폭
+  margin: 0 auto; // 중앙 정렬
+  width: 100%;
+}
+
+/* Navbar, Footer도 필요시 여기서 전체 높이 계산 맞춰줌 */

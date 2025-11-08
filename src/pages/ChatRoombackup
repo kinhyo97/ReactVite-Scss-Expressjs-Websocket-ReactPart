@@ -1,0 +1,83 @@
+import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import ChatHeader from "../components/ChatHeader";
+import ChatMessages from "../components/ChatMessages";
+import ChatInput from "../components/ChatInput";
+import "./ChatRoom.scss";
+
+function ChatRoom() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [messages, setMessages] = useState([]);
+  const ws = useRef(null);
+  const [user, setUser] = useState(null);
+  const [sending, setSending] = useState(false);
+
+  //  로그인된 사용자 불러오기
+  useEffect(() => {
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      const parsedUser = JSON.parse(userData);
+      setUser(parsedUser.username); // 실제 필드명(username or name) 맞게 수정
+      console.log(" 로그인 사용자:", parsedUser.username);
+    }
+  }, []);
+
+  //  웹소켓 연결
+  useEffect(() => {
+     if (!user) return;
+    ws.current = new WebSocket("ws://localhost:3000");
+
+    ws.current.onopen = () => {
+      console.log(" WebSocket 연결됨");
+    };
+
+    ws.current.onmessage = (event) => {
+      try {
+        const msg = JSON.parse(event.data); // event.json ❌ → event.data 
+        console.log("📨 서버로부터 받은 메시지:", msg);
+        //setMessages((prev) => [...prev, { ...msg, sender: "other" }]);
+
+        if(msg.id === user){
+            setSending(false);
+        } 
+        setMessages((prev) => [...prev,msg]);
+      } catch (error) {
+        console.error("❌ 메시지 파싱 오류:", event.data);
+      }
+    };
+
+    ws.current.onclose = () => console.log("❌ WebSocket 연결 종료");
+
+    return () => ws.current.close();
+  }, [user]);
+
+  //  메시지 전송
+  const handleSend = (message) => {
+    if (!message.trim()) return;
+    if (!user) return alert("로그인 정보가 없습니다.");
+
+    const payload = {
+      id: user,
+      content: message,
+    };
+
+    setSending(true);
+    requestAnimationFrame(() => {
+    ws.current.send(JSON.stringify(payload));
+  });
+
+    //setMessages((prev) => [...prev, { ...payload, sender: "me" }]);
+    //ws.current.send(JSON.stringify(payload)); // cureent ❌ → current 
+  };
+
+  return (
+    <div className="chat-room">
+      <ChatHeader id={id} onBack={() => navigate("/chat")} />
+      <ChatMessages messages={messages} user={user} sending={sending} />
+      <ChatInput onSend={handleSend} />
+    </div>
+  );
+}
+
+export default ChatRoom;

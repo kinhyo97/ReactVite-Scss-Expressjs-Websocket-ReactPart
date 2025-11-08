@@ -1,0 +1,45 @@
+
+
+.login-container {
+  width:100%;
+  @include flex-center(column,5px,wrap);
+
+
+  h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    button {
+      margin-top: 8px;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: #0069d9;
+      }
+
+      &:disabled {
+        background-color: #a4c8f0;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
